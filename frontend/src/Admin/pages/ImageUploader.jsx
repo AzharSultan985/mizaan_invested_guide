@@ -17,7 +17,9 @@ export default function ImageUploader({
 }) {
   const mainRef = useRef(null);
   const galleryRef = useRef(null);
-
+const images = Array.isArray(articleImages)
+  ? articleImages
+  : [];
   const handleMainImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -100,14 +102,14 @@ export default function ImageUploader({
 
         </div>
 
-      {(articleImages || []).length === 0 ? (
+      {(images || []).length === 0 ? (
           <div className="rounded-2xl border-2 border-dashed border-slate-300 p-14 text-center text-slate-500">
             No article images uploaded.
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
 
-            {articleImages?.map((image) => (
+            {images?.map((image) => (
 
               <motion.div
                 key={image.id}

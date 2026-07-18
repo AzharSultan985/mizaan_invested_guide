@@ -15,9 +15,14 @@ import Loader from "./components/loading";
 import CheckoutPage from "./components/CheckoutPage";
 import ArticleDetails from "./Blogs/article.jsx";
 import AdminLayout from "./Admin/AdminLayout.jsx";
+import ArticlePreview from "./Admin/pages/LivePreview.jsx";
+import { useApp } from "./context/context.jsx";
+import UserAppAlert from "./components/userAlert.jsx";
 
 export default function App() {
   const {  Authloading ,alert, setAlert} = useAuth();
+  const {loading,setloading , alertUser, setalertUser } = useApp();
+  
   useEffect(() => {
     if (alert.show) {
       const timer = setTimeout(() => {
@@ -30,11 +35,30 @@ export default function App() {
       return () => clearTimeout(timer);
     }
   }, [alert.show]);
+
+  
+  useEffect(() => {
+    if (alertUser.show) {
+      const timer = setTimeout(() => {
+        setalertUser((prev) => ({
+          ...prev,
+          show: false,
+        }));
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [alertUser.show]);
+
+
+
   return (
   <>
+
         <Alert />
+        <UserAppAlert />
         {
-          Authloading&& <Loader />
+         ( Authloading|| loading )&& <Loader />
         }
        
 
@@ -67,7 +91,10 @@ export default function App() {
    path="/admin"
    element={<AdminLayout/>}
 />
-
+<Route
+    path="/admin/articles/preview"
+    element={<ArticlePreview/>}
+/>
         {/* <Route path="/plans" element={<PricingSection />} /> */}
 
         {/* Optional 404 */}

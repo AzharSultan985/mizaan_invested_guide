@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import  AuthRoutes  from './Routes/AuthRoutes.js'
+import  userRoutes  from './Routes/userRoutes.js'
 import connectDb from "./config/mongodb.js";
 import cookieParser from "cookie-parser";
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 
 
 app.use('/api', AuthRoutes)
+app.use('/api/user', userRoutes)
 // Server
 
 const PORT = process.env.PORT || 5000;
