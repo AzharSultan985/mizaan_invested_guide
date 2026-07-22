@@ -5,7 +5,7 @@ import  AuthRoutes  from './Routes/AuthRoutes.js'
 import  userRoutes  from './Routes/userRoutes.js'
 import connectDb from "./config/mongodb.js";
 import cookieParser from "cookie-parser";
-
+import path from "path";
 dotenv.config();
 
 const app = express();
@@ -16,7 +16,7 @@ connectDb();
 // Middlewares
 app.use(cors({
   origin: true,
-  credentials: true,
+  credentials: true,    
 }));
 app.use(express.json());
 app.use(cookieParser())
@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
     });
 });
 
-
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use('/api', AuthRoutes)
 app.use('/api/user', userRoutes)
 // Server

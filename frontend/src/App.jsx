@@ -16,12 +16,13 @@ import CheckoutPage from "./components/CheckoutPage";
 import ArticleDetails from "./Blogs/article.jsx";
 import AdminLayout from "./Admin/AdminLayout.jsx";
 import ArticlePreview from "./Admin/pages/LivePreview.jsx";
-import { useApp } from "./context/context.jsx";
+
 import UserAppAlert from "./components/userAlert.jsx";
+import { useAdmin } from "./context/Admincontext.jsx";
 
 export default function App() {
   const {  Authloading ,alert, setAlert} = useAuth();
-  const {loading,setloading , alertUser, setalertUser } = useApp();
+  const {loading,setloading , alertUser, setalertUser } = useAdmin();
   
   useEffect(() => {
     if (alert.show) {

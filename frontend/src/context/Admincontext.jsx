@@ -1,9 +1,9 @@
   import { useAnimateMini } from "framer-motion";
 import { createContext, useCallback, useContext, useState } from "react";
 import {useNavigate} from 'react-router-dom';
-  const AppContext = createContext();
+  const AdminContext = createContext();
 
-  export const AppProvider = ({ children }) => {
+  export const AdminProvider = ({ children }) => {
 const [loading,setloading]=useState(false)
 const [alertUser, setalertUser] = useState({
   show: false,
@@ -22,7 +22,7 @@ const navigate=useNavigate()
 
 
 
-const HandleArticle = async (data) => {
+const HandleArticle = async (data) => {0
   try {
     setloading(true);
 
@@ -87,13 +87,14 @@ const HandleArticle = async (data) => {
 
 
 
+
     return (
-      <AppContext.Provider
+      <AdminContext.Provider
         value={{ HandleArticle  ,loading,setloading , alertUser, setalertUser}}
       >
         {children}
-      </AppContext.Provider>
+      </AdminContext.Provider>
     );
   };
 
-  export const useApp = () => useContext(AppContext);
+  export const useAdmin = () => useContext(AdminContext);

@@ -12,68 +12,79 @@ const animations = [
   { opacity: 0, y: 30 },
   { opacity: 0, y: 30 },
 ];
-
 export default function BlogCard({
-  id,
-  image,
-  category,
-  title,
-  description,
-  readTime,
-  views,
+  article,
   featured = false,
   index = 0,
 }) {
-  const animation = animations[index % animations.length];
+  const {
+  _id,
+  coverImage,
+  articleImages,
+  category,
+  title,
+  description,
+  content,
+  createdAt,
+  views,
+} = article;
   const navigate = useNavigate();
+
+  const animation = animations[index % animations.length];
+
+  const imageUrl = coverImage?.url
+    ? `${import.meta.env.VITE_BACKEND_URL}${coverImage.url}`
+    : "/placeholder.jpg";
 
   if (featured) {
     return (
       <motion.div
         initial={animation}
-        whileInView={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
         viewport={{ once: true }}
         whileHover={{ y: -5 }}
-        className="group grid lg:grid-cols-2 overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.06)]"
+        className="group grid overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.06)] lg:grid-cols-2"
       >
-        <div className="overflow-hidden h-64 lg:h-auto">
+        <div className="h-64 overflow-hidden lg:h-auto">
           <img
-            src={image}
+            src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover group-hover:scale-105 duration-700"
+            className="h-full w-full object-cover duration-700 group-hover:scale-105"
           />
         </div>
 
-        <div className="p-8 md:p-12 flex flex-col justify-center">
-          <span className="inline-block w-fit px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold tracking-widest uppercase border border-emerald-100">
+        <div className="flex flex-col justify-center p-8 md:p-12">
+          <span className="inline-block w-fit rounded-full border border-emerald-100 bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-emerald-700">
             {category}
           </span>
 
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mt-6 leading-tight tracking-tight">
+          <h2 className="mt-6 text-3xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-4xl">
             {title}
           </h2>
 
-          <p className="text-slate-600 mt-6 leading-relaxed font-medium">
+          <p className="mt-6 font-medium leading-relaxed text-slate-600">
             {description}
           </p>
 
-          <div className="flex gap-6 mt-8 text-slate-500 text-sm font-semibold">
-            <span className="flex items-center gap-2">
-              <FaClock className="text-emerald-500" />
-              {readTime}
-            </span>
+          <div className="mt-8 flex gap-6 text-sm font-semibold text-slate-500">
+            {/* <spn className="flex items-center gap-2"> */}
+              {/* <FaClock className="text-emerald-500" />
+              {raeadTime}
+            </span> */}
+
             <span className="flex items-center gap-2">
               <FaEye className="text-emerald-500" />
               {views}
             </span>
           </div>
 
-          <button 
-            className="mt-10 w-fit px-8 py-4 cursor-pointer rounded-2xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all flex items-center gap-3 shadow-lg shadow-emerald-600/20"  
-            onClick={() => navigate(`user/articles/${id}`)}
+          <button
+            onClick={() => navigate(`/user/articles/${_id}`)}
+            className="mt-10 flex w-fit cursor-pointer items-center gap-3 rounded-2xl bg-emerald-600 px-8 py-4 font-bold text-white shadow-lg shadow-emerald-600/20 transition hover:bg-emerald-700"
           >
-            Read Article <FaArrowRight size={14} />
+            Read Article
+            <FaArrowRight size={14} />
           </button>
         </div>
       </motion.div>
@@ -87,46 +98,52 @@ export default function BlogCard({
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
       whileHover={{ y: -8 }}
-      className="group rounded-3xl overflow-hidden bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-100 duration-500 flex flex-col h-full"
+      className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm duration-500 hover:border-emerald-100 hover:shadow-xl"
     >
-      <div className="overflow-hidden h-60">
+      <div className="h-60 overflow-hidden">
         <img
-          src={image}
+          src={imageUrl}
           alt={title}
-          className="h-full w-full object-cover group-hover:scale-105 duration-700"
+          className="h-full w-full object-cover duration-700 group-hover:scale-105"
         />
       </div>
 
-      <div className="p-7 flex flex-col flex-grow">
-        <div className="flex justify-between items-center">
-          <span className="text-emerald-600 font-bold text-xs tracking-widest uppercase">
+      <div className="flex flex-grow flex-col p-7">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">
             {category}
           </span>
+
           <FaBookOpen className="text-slate-300" />
         </div>
 
-        <h3 className="text-slate-900 text-xl font-extrabold mt-4 leading-snug">
+        <h3 className="mt-4 text-xl font-extrabold leading-snug text-slate-900">
           {title}
         </h3>
 
-        <p className="text-slate-600 mt-3 leading-relaxed text-sm flex-grow">
+        <p className="mt-3 flex-grow text-sm leading-relaxed text-slate-600">
           {description}
         </p>
 
-        <div className="flex justify-between mt-6 text-xs text-slate-500 font-semibold">
-          <span className="flex gap-2 items-center">
-            <FaClock /> {readTime}
-          </span>
-          <span className="flex gap-2 items-center">
-            <FaEye /> {views}
+        <div className="mt-6 flex justify-between text-xs font-semibold text-slate-500">
+          {/* <span className="flex items-center gap-2">
+            <FaClock />
+            {readTime}
+          </span> */}
+
+          <span className="flex items-center gap-2">
+            <FaEye />
+            {views}
           </span>
         </div>
 
-        <button 
-          onClick={() => navigate(`user/articles/${id}`)} 
-          className="mt-6 w-full rounded-2xl py-4 cursor-pointer bg-slate-900 text-white font-bold flex justify-center items-center gap-3 hover:bg-slate-800 transition-all"
-        >
-          Read More <FaArrowRight size={14} />
+      <button
+   onClick={() => navigate(`/user/articles/${_id}`)}
+            className="mt-6 flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl bg-slate-900 py-4 font-bold text-white transition hover:bg-slate-800"
+
+>
+          Read More
+          <FaArrowRight size={14} />
         </button>
       </div>
     </motion.div>

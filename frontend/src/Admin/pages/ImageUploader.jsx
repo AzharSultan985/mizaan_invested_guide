@@ -34,25 +34,24 @@ const images = Array.isArray(articleImages)
     setMainImage(image);
   };
 
-  const handleGalleryImages = (e) => {
-    const files = Array.from(e.target.files);
+ const handleGalleryImages = (e) => {
+  const files = Array.from(e.target.files);
 
-    const images = files?.map((file) => ({
-      id: Date.now() + Math.random(),
-      file,
-      preview: URL.createObjectURL(file),
-      name: file.name,
-    }));
+  const images = files.map((file, index) => ({
+    id: String(Date.now() + index),
+    file,
+    preview: URL.createObjectURL(file),
+    name: file.name,
+  }));
 
-    setArticleImages((prev) => [...prev, ...images]);
-  };
-
+  setArticleImages((prev) => [...prev, ...images]);
+};
   const removeImage = (id) => {
     setArticleImages((prev) => prev.filter((img) => img.id !== id));
   };
 
   const copyMarkdown = (image) => {
-    const markdown = `![${image.name}](IMAGE_${image.id})`;
+   const markdown = `![Image](${image.id})`;
 
     navigator.clipboard.writeText(markdown);
 

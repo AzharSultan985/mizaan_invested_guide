@@ -60,15 +60,22 @@ console.log(article.content);
 
                 <article className="prose prose-lg max-w-none mt-14">
 
-      <ReactMarkdown
-  remarkPlugins={[remarkGfm]}
+<ReactMarkdown
   components={{
-    img({ src, alt }) {
+    img: ({ src }) => {
+      console.log(src);
+
+      const image = article.articleImages.find(
+        (img) => String(img.id) === String(src)
+      );
+
+      if (!image) return null;
+
       return (
         <img
-          src={imageMap[src] || src}
-          alt={alt}
-          className="my-8 w-full rounded-2xl shadow-lg"
+          src={`${BackendURL}${image.url}`}
+          alt=""
+          className="my-10 w-full rounded-3xl shadow-2xl"
         />
       );
     },

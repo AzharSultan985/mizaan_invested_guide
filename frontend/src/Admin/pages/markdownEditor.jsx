@@ -7,12 +7,11 @@ export default function MarkdownEditor({
   onChange,
   images = [],
 }) {
-  const insertImage = (imageName) => {
-    const markdown = `\n\n![Image](${imageName})\n\n`;
+const insertImage = (id) => {
+  const markdown = `\n\n![Image](${id})\n\n`;
 
-    onChange((value || "") + markdown);
-  };
-
+  onChange((value || "") + markdown);
+};
   return (
     <div className="space-y-8">
 
@@ -155,37 +154,22 @@ export default function MarkdownEditor({
 
               <div className="space-y-3">
 
-                {images.map((img, index) => {
+                {images.map((img) => (
+  <button
+    key={img.id}
+    type="button"
+    onClick={() => insertImage(img.id)}
+    className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-left hover:border-emerald-500 hover:bg-emerald-50"
+  >
+    <div className="font-semibold">
+      {img.name}
+    </div>
 
-                  const imageName =
-                    img.name || img.filename || img;
-
-                  return (
-
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() => insertImage(imageName)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-left transition hover:border-emerald-500 hover:bg-emerald-50"
-                    >
-
-                      <div className="font-semibold text-slate-800">
-
-                        {imageName}
-
-                      </div>
-
-                      <div className="text-xs text-slate-500 mt-1">
-
-                        Click to insert into article
-
-                      </div>
-
-                    </button>
-
-                  );
-
-                })}
+    <div className="text-xs text-slate-500">
+      Image ID: {img.id}
+    </div>
+  </button>
+))}
 
               </div>
 

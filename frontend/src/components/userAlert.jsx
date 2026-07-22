@@ -1,8 +1,8 @@
 import { AlertTriangle, CheckCircle2, Info ,X} from "lucide-react";
-import { useApp } from "../context/context";
 import { AnimatePresence, motion } from "framer-motion";    
+import { useAdmin } from "../context/Admincontext";
 export default function UserAppAlert() {
-  const { alertUser, setalertUser } = useApp();
+  const { alertUser, setalertUser } = useAdmin();
 
   const types = {
     success: {

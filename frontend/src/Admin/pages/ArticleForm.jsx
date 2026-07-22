@@ -14,7 +14,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useApp } from "../../context/context";
+import { useAdmin } from "../../context/Admincontext";
 export default function ArticleForm() {
  const [formData, setFormData] = useState({
   title: "",
@@ -27,7 +27,7 @@ export default function ArticleForm() {
   content: "",
 });
 
-  const { HandleArticle } = useApp();
+  const { HandleArticle } = useAdmin();
 
 const navigate=useNavigate()
 const [showPublishModal, setShowPublishModal] = useState(false);
