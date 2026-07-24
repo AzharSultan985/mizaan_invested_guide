@@ -34,32 +34,30 @@ const images = Array.isArray(articleImages)
     setMainImage(image);
   };
 
- const handleGalleryImages = (e) => {
+const handleGalleryImages = (e) => {
   const files = Array.from(e.target.files);
 
-  const images = files.map((file, index) => ({
-    id: String(Date.now() + index),
-    file,
-    preview: URL.createObjectURL(file),
-    name: file.name,
-  }));
-
+const images = files.map((file) => ({
+  file,
+  preview: URL.createObjectURL(file),
+  name: file.name,
+  url: `/uploads/articles/images/${file.name}`,
+}));
   setArticleImages((prev) => [...prev, ...images]);
 };
   const removeImage = (id) => {
     setArticleImages((prev) => prev.filter((img) => img.id !== id));
   };
 
-  const copyMarkdown = (image) => {
-   const markdown = `![Image](${image.id})`;
+ const copyMarkdown = (image) => {
+  const markdown = `\n\n![Image](${image.url})\n\n`;
 
-    navigator.clipboard.writeText(markdown);
+  navigator.clipboard.writeText(markdown);
 
-    if (onInsertImage) {
-      onInsertImage(markdown);
-    }
-  };
-
+  if (onInsertImage) {
+    onInsertImage(markdown);
+  }
+};
   return (
     <div className="space-y-10">
 

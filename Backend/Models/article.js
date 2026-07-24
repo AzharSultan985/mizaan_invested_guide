@@ -2,12 +2,7 @@ import mongoose from "mongoose";
 
 const articleImageSchema = new mongoose.Schema(
   {
-    id: {
-      type: String,
-      required: true,
-    },
-
-    name: {
+   name: {
       type: String,
       required: true,
     },
@@ -17,10 +12,6 @@ const articleImageSchema = new mongoose.Schema(
       required: true,
     },
 
-    publicId: {
-      type: String,
-      default: "",
-    },
   },
   { _id: false }
 );

@@ -73,10 +73,10 @@ export default function BlogCard({
               {raeadTime}
             </span> */}
 
-            <span className="flex items-center gap-2">
+            {/* <span className="flex items-center gap-2">
               <FaEye className="text-emerald-500" />
               {views}
-            </span>
+            </span> */}
           </div>
 
           <button

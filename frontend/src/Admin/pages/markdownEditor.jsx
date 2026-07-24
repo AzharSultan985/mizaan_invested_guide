@@ -158,7 +158,7 @@ const insertImage = (id) => {
   <button
     key={img.id}
     type="button"
-    onClick={() => insertImage(img.id)}
+    onClick={() => insertImage(img.name)}
     className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-left hover:border-emerald-500 hover:bg-emerald-50"
   >
     <div className="font-semibold">
@@ -166,7 +166,7 @@ const insertImage = (id) => {
     </div>
 
     <div className="text-xs text-slate-500">
-      Image ID: {img.id}
+      Image ID: {img.name}
     </div>
   </button>
 ))}

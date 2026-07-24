@@ -15,6 +15,7 @@ export default function ArticleDetails() {
   const navigate = useNavigate();
 
   const { UserArticles, HandleFetchArticle } = useApp();
+console.log(UserArticles);
 
   useEffect(() => {
     if (UserArticles.length === 0) {
@@ -48,7 +49,9 @@ export default function ArticleDetails() {
 
   const BackendURL = import.meta.env.VITE_BACKEND_URL;
   const coverImage = `${BackendURL}${article.coverImage.url}`;
-
+const remainingArticles = UserArticles.filter(
+  (item) => item._id !== article._id
+) ||[ ];
   return (
     <section className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       {/* Hero Header */}
@@ -62,7 +65,7 @@ export default function ArticleDetails() {
 
         <button
           onClick={() => navigate(-1)}
-          className="absolute top-6 left-6 md:top-8 md:left-8 z-20 h-12 w-12 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 flex items-center justify-center hover:bg-emerald-50 hover:border-emerald-200 transition shadow-sm"
+          className="absolute top-6 cursor-pointer left-6 md:top-8 md:left-8 z-20 h-12 w-12 rounded-full bg-white/80 backdrop-blur-md border border-slate-200 flex items-center justify-center hover:bg-emerald-50 hover:border-emerald-200 transition shadow-sm"
         >
           <FaArrowLeft className="text-slate-800" />
         </button>
@@ -119,6 +122,8 @@ export default function ArticleDetails() {
      <ReactMarkdown
   components={{
     img: ({ src }) => {
+      // console.log("src",src);
+      
       // markdown se extension ya path hata do
       const image = article.articleImages.find((img) =>
         img.name.includes(src)
@@ -136,7 +141,6 @@ export default function ArticleDetails() {
       return (
         <img
           src={`${BackendURL}${image.url}`}
-          alt={image.name}
           className="w-full rounded-3xl my-10 shadow-xl object-cover"
         />
       );
@@ -149,40 +153,57 @@ export default function ArticleDetails() {
           </motion.article>
 
           {/* Sidebar */}
-          <motion.aside
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-6"
-          >
-            <div className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900">Quick Actions</h3>
-              <button className="mt-6 w-full rounded-xl bg-emerald-600 py-3 text-white font-bold flex items-center justify-center gap-3 hover:bg-emerald-700 transition">
-                <FaBookmark /> Save Article
-              </button>
-              <button 
-                onClick={() => {
-                  navigator.clipboard.writeText(window.location.href);
-                  alert("Article link copied to clipboard!");
-                }}
-                className="mt-4 w-full rounded-xl border border-slate-200 py-3 text-slate-700 font-bold flex items-center justify-center gap-3 hover:bg-slate-50 transition"
-              >
-                <FaShareAlt /> Share
-              </button>
-            </div>
+        <motion.aside
+  initial={{ opacity: 0, x: 40 }}
+  animate={{ opacity: 1, x: 0 }}
+  className="space-y-6"
+>
+  {/* Share */}
 
-            <div className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-white p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-slate-900">Explore More</h3>
-              <p className="mt-3 text-slate-600 leading-relaxed text-sm">
-                Discover more insights, guides, and educational resources from our community.
-              </p>
-              <button
-                onClick={() => navigate(-1)}
-                className="mt-6 w-full rounded-xl bg-slate-900 py-3 font-bold text-white hover:bg-slate-800 transition"
-              >
-                Back to Articles
-              </button>
-            </div>
-          </motion.aside>
+  {/* More Articles */}
+
+  <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+
+    <div className="border-b border-slate-100 px-7 py-5">
+      <h3 className="text-lg font-bold text-slate-900">
+        More Articles
+      </h3>
+
+    
+    </div>
+
+  <div className="divide-y divide-slate-100">
+
+  {remainingArticles.length > 0 ? (
+    remainingArticles.map((item) => (
+      <button
+        key={item._id}
+        onClick={() => navigate(`/user/articles/${item._id}`)}
+        className="w-full text-left px-7 py-5 hover:bg-emerald-50 transition group"
+      >
+        <h4 className="font-semibold text-slate-800 group-hover:text-emerald-600 transition line-clamp-2">
+          {item.title}
+        </h4>
+
+        <p className="mt-2 text-xs text-slate-500">
+          {new Date(item.createdAt).toLocaleDateString()}
+        </p>
+      </button>
+    ))
+  ) : (
+    <div className="px-7 py-10 text-center">
+      <p className="text-slate-400 text-sm">
+        No more articles available.
+      </p>
+    </div>
+  )}
+
+</div>
+  </div>
+
+ 
+ 
+</motion.aside>
 
         </div>
       </div>
